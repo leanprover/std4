@@ -1,4 +1,6 @@
 import Std.Classes.BEq
+import Std.Classes.Collections.Fold
+import Std.Classes.Collections.Iterable
 import Std.Classes.Dvd
 import Std.Classes.LawfulMonad
 import Std.Classes.Order
