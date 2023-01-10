@@ -19,6 +19,7 @@ import Std.Data.DList
 import Std.Data.Fin.Lemmas
 import Std.Data.HashMap
 import Std.Data.HashMap.Basic
+import Std.Data.HashMap.Lemmas
 import Std.Data.HashMap.WF
 import Std.Data.Int.Basic
 import Std.Data.Int.DivMod
@@ -26,6 +27,7 @@ import Std.Data.Int.Lemmas
 import Std.Data.List.Basic
 import Std.Data.List.Init.Lemmas
 import Std.Data.List.Lemmas
+import Std.Data.List.Perm
 import Std.Data.Nat.Basic
 import Std.Data.Nat.Gcd
 import Std.Data.Nat.Lemmas
