@@ -76,6 +76,68 @@ example (f : ℕ × (ℕ → ℕ)) : f = f := by
 example (f : Empty → Empty) : f = f := by
   ext ⟨⟩
 
+
+
+/-!
+## Test for `ext?`
+It should apply the two ext lemmas and display a tactic replacement
+-/
+namespace nested
+
+structure A where
+  a : Nat
+structure B extends A where
+  b : Nat
+structure C extends B where
+  c : Nat
+
+@[ext]
+theorem extCtoB (c₁ c₂ : C) (g : ∀ (a : A), true)  (h : c₁.c = c₂.c) (h' :  c₁.toB = c₂.toB ) :
+    c₁ = c₂ := by admit
+@[ext]
+theorem extBtoA (b₁ b₂ : B) (h : b₁.b = b₂.b) (h' :  b₁.a = b₂.a ) : b₁ = b₂ := by admit
+
+@[ext]
+theorem test (c₁ c₂ : C) (h : c₁.a = c₂.a) (h' :  c₁.b = c₂.b )
+    (h'' :  c₁.c = c₂.c ) : c₁ = c₂ := by
+  ext?
+  -- Try this:
+  -- · apply extCtoB
+  --   intros
+  --   sorry
+  --   sorry
+  --   apply extBtoA
+  --   sorry
+  --   sorry
+  repeat admit
+
+
+/-!
+## Testing `ext!?`
+
+`ext` does not find the lemma `extCtoB` above because it does not see through the
+definition `D := C`. `ext!?` ignores the types and tries to apply anything brute force
+giving a warning if it succeeds.
+-/
+
+def D := C
+
+@[ext]
+theorem test₂ (c₁ c₂ : D) (h : c₁.a = c₂.a) (h' :  c₁.b = c₂.b )
+    (h'' :  c₁.c = c₂.c ) : c₁ = c₂ := by
+  ext!?
+  -- `nested.extCtoB` applied, which is written in terms of type `nested.C`.
+  -- If you want `ext` to find it, please make a copy of this
+  -- lemma in terms of type `D`.
+  repeat admit
+
+end nested
+
+
+
+-- Note: This is a terrible `ext`-lemma that will cause all future calls to
+-- `ext` to fail by max. recursion depth.
+-- TODO: Why do we have this test?
 @[ext] theorem ext_intros {n m : Nat} (w : ∀ n m : Nat, n = m) : n = m := by apply w
 
 example : 3 = 7 := by
