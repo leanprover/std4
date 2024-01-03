@@ -173,6 +173,8 @@ import Std.Tactic.SeqFocus
 import Std.Tactic.ShowTerm
 import Std.Tactic.SimpTrace
 import Std.Tactic.Simpa
+import Std.Tactic.Simps.Basic
+import Std.Tactic.Simps.NotationClass
 import Std.Tactic.SqueezeScope
 import Std.Tactic.TryThis
 import Std.Tactic.Unreachable

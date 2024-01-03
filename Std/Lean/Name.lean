@@ -3,8 +3,21 @@ Copyright (c) 2023 Mario Carneiro. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Mario Carneiro
 -/
+import Lean.Data.Name
 
 namespace Lean.Name
+
+/-- Update the last component of a name. -/
+def updateLast (f : String → String) : Name → Name
+  | .str n s => .str n (f s)
+  | n        => n
+
+/-- Get the last field of a name as a string.
+Doesn't raise an error when the last component is a numeric field. -/
+def getString : Name → String
+  | .str _ s => s
+  | .num _ n => toString n
+  | .anonymous => ""
 
 /-- Returns true if the name has any numeric components. -/
 def hasNum : Name → Bool
