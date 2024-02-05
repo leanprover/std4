@@ -184,6 +184,14 @@ example : 5 ≤ 7 := by
 
 end issue1581
 
+example (x : P ∧ Q) : P := by
+  fail_if_success solve_by_elim (config := {projs := false})
+  solve_by_elim
+
+example (x : Nat × Nat) : Nat := by
+  fail_if_success solve_by_elim (config := {constructor := false, projs := false})
+  solve_by_elim (config := {constructor := false})
+
 example (x : (α × (β × γ))) : (α × β) × γ := by
   rcases x with ⟨a, b, c⟩
   fail_if_success solve_by_elim (config := {constructor := false})
