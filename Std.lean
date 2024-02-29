@@ -144,6 +144,7 @@ import Std.Tactic.SimpTrace
 import Std.Tactic.Simpa
 import Std.Tactic.SolveByElim
 import Std.Tactic.SolveByElim.Backtrack
+import Std.Tactic.Spread
 import Std.Tactic.SqueezeScope
 import Std.Tactic.TryThis
 import Std.Tactic.Unreachable
