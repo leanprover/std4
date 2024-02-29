@@ -132,6 +132,23 @@ theorem eq_zero_or_eq_succ {n : Nat} : ∀ i : Fin (n + 1), i = 0 ∨ ∃ j : Fi
 theorem eq_succ_of_ne_zero {n : Nat} {i : Fin (n + 1)} (hi : i ≠ 0) : ∃ j : Fin n, i = j.succ :=
   (eq_zero_or_eq_succ i).resolve_left hi
 
+@[simp] theorem val_zero' (n k : Nat) : (0 : Fin ((n + 1)^k)).1 = 0 := rfl
+
+@[simp] theorem mk_zero' : (⟨0, Nat.pos_pow_of_pos k (Nat.succ_pos n)⟩ : Fin ((n + 1)^k)) = 0 := rfl
+
+@[simp] theorem zero'_le (a : Fin ((n + 1)^k)) : 0 ≤ a := Nat.zero_le a.val
+
+theorem zero'_lt_one (h : 0 < k) : (0 : Fin ((n + 2)^k)) < 1 := by
+  change (0 : Nat) < (1 % ((n+2)^k))
+  rw [Nat.mod_eq_of_lt]
+  · exact Nat.zero_lt_one
+  · apply Nat.one_lt_pow (Nat.ne_of_gt h) (by omega)
+
+@[simp] theorem not_lt_zero' (a : Fin ((n + 1)^k)) : ¬a < 0 := fun.
+
+theorem pos_iff_ne_zero' {a : Fin ((n + 1)^k)} : 0 < a ↔ a ≠ 0 := by
+  rw [lt_def, val_zero', Nat.pos_iff_ne_zero, ← val_ne_iff]; rfl
+
 @[simp] theorem val_rev (i : Fin n) : rev i = n - (i + 1) := rfl
 
 @[simp] theorem rev_rev (i : Fin n) : rev (rev i) = i := ext <| by
@@ -153,7 +170,7 @@ theorem rev_eq {n a : Nat} (i : Fin (n + 1)) (h : n = a + i) :
 @[simp] theorem rev_lt_rev {i j : Fin n} : rev i < rev j ↔ j < i := by
   rw [← Fin.not_le, ← Fin.not_le, rev_le_rev]
 
-@[simp, norm_cast] theorem val_last (n : Nat) : last n = n := rfl
+@[simp, norm_cast] theorem val_last (n : Nat) : (last n : Nat) = n := rfl
 
 theorem le_last (i : Fin (n + 1)) : i ≤ last n := Nat.le_of_lt_succ i.is_lt
 

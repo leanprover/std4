@@ -7,6 +7,9 @@ import Std.Data.Nat.Init.Lemmas
 
 namespace Fin
 
+instance : OfNat (Fin ((n+1)^k)) i :=
+  ⟨Fin.ofNat' i (Nat.pos_pow_of_pos k (Nat.succ_pos n))⟩
+
 protected theorem pos (i : Fin n) : 0 < n :=
   Nat.lt_of_le_of_lt (Nat.zero_le _) i.2
 
