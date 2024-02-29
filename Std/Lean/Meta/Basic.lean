@@ -7,6 +7,7 @@ import Lean.Elab.Term
 import Lean.Meta.Tactic.Apply
 import Lean.Meta.Tactic.Replace
 import Std.Lean.LocalContext
+import Std.Data.Option.Basic
 
 open Lean Lean.Meta
 
@@ -317,9 +318,14 @@ where
 /-- Add the hypothesis `h : t`, given `v : t`, and return the new `FVarId`. -/
 def note (g : MVarId) (h : Name) (v : Expr) (t? : Option Expr := .none) :
     MetaM (FVarId × MVarId) := do
-  (← g.assert h (← match t? with | some t => pure t | none => inferType v) v).intro1P
+  (← g.assert h (← t?.getDM (inferType v)) v).intro1P
 
-/-- Get the type the given metavariable after instantiating metavariables and cleaning up
+/-- Adds a let binding `h : t := v`, given `v : t`, and return the new `FVarId`. -/
+def «let» (g : MVarId) (h : Name) (v : Expr) (t? : Option Expr := .none) :
+    MetaM (FVarId × MVarId) := do
+  (← g.define h (← t?.getDM (inferType v)) v).intro1P
+
+/-- Get the type of the given metavariable after instantiating metavariables and cleaning up
 annotations. -/
 def getTypeCleanup (mvarId : MVarId) : MetaM Expr :=
   return (← instantiateMVars (← mvarId.getType)).cleanupAnnotations
