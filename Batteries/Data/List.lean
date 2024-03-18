@@ -7,3 +7,4 @@ import Batteries.Data.List.Lemmas
 import Batteries.Data.List.NatLemmas
 import Batteries.Data.List.Pairwise
 import Batteries.Data.List.Perm
+import Batteries.Data.List.SplitOnList
