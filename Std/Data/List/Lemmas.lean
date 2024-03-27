@@ -398,6 +398,11 @@ theorem forall_mem_append {p : α → Prop} {l₁ l₂ : List α} :
     (∀ x ∈ l₁ ++ l₂, p x) ↔ (∀ x ∈ l₁, p x) ∧ (∀ x ∈ l₂, p x) := by
   simp only [mem_append, or_imp, forall_and]
 
+theorem forall_mem_iff_forall_index {p : α → Prop} {l : List α} :
+    (∀ x ∈ l, p x) ↔ (∀ i : Fin (l.length), p (l.get i)) :=
+  ⟨fun h i => h _ (get_mem l i.1 i.2),
+  fun h _ hx => by have ⟨_, hi⟩ := mem_iff_get.mp hx; simp only [← hi, h]⟩
+
 /-! ### List subset -/
 
 theorem subset_def {l₁ l₂ : List α} : l₁ ⊆ l₂ ↔ ∀ {a : α}, a ∈ l₁ → a ∈ l₂ := .rfl
