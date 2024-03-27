@@ -33,6 +33,9 @@ import Std.Data.PairingHeap
 import Std.Data.RBMap
 import Std.Data.Range
 import Std.Data.Rat
+import Std.Data.Rat.Basic
+import Std.Data.Rat.Lemmas
+import Std.Data.StateList
 import Std.Data.String
 import Std.Data.Sum
 import Std.Data.UInt
@@ -63,6 +66,7 @@ import Std.Lean.NameMapAttribute
 import Std.Lean.PersistentHashMap
 import Std.Lean.PersistentHashSet
 import Std.Lean.Position
+import Std.Lean.RefinedDiscrTree
 import Std.Lean.SMap
 import Std.Lean.Syntax
 import Std.Lean.System.IO
