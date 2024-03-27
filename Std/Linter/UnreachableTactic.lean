@@ -40,6 +40,7 @@ initialize ignoreTacticKindsRef : IO.Ref NameHashSet ←
     |>.insert ``Parser.Term.binderTactic
     |>.insert ``Lean.Parser.Term.dynamicQuot
     |>.insert ``Lean.Parser.Tactic.quotSeq
+    |>.insert ``Lean.Parser.Tactic.done
     |>.insert ``Lean.Parser.Tactic.tacticStop_
     |>.insert ``Lean.Parser.Command.notation
     |>.insert ``Lean.Parser.Command.mixfix
@@ -78,8 +79,9 @@ partial def eraseUsedTacticsList (trees : PersistentArray InfoTree) : M Unit :=
 partial def eraseUsedTactics : InfoTree → M Unit
   | .node i c => do
     if let .ofTacticInfo i := i then
-      if let some r := i.stx.getRange? true then
-        modify (·.erase r)
+      if i.goalsBefore != [] then
+        if let some r := i.stx.getRange? true then
+          modify (·.erase r)
     eraseUsedTacticsList c
   | .context _ t => eraseUsedTactics t
   | .hole _ => pure ()
@@ -109,7 +111,8 @@ def unreachableTacticLinter : Linter where run := withSetOptionIn fun stx => do
   for (r, stx) in let _ := @lexOrd; let _ := @ltOfOrd.{0}; unreachable.qsort (key ·.1 < key ·.1) do
     if stx.getKind ∈ [``Std.Tactic.unreachable, ``Std.Tactic.unreachableConv] then continue
     if last.start ≤ r.start && r.stop ≤ last.stop then continue
-    logLint linter.unreachableTactic stx "this tactic is never executed"
+    logLint linter.unreachableTactic stx
+      "this tactic is never executed, or is run with no goals remaining"
     last := r
 
 initialize addLinter unreachableTacticLinter
