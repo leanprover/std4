@@ -5,6 +5,7 @@ Authors: Bulhwi Cha, Mario Carneiro
 -/
 import Batteries.Data.List.Lemmas
 import Batteries.Data.List.NatLemmas
+import Batteries.Tactic.SeqFocus
 
 /-!
 # `List.splitOnList`
@@ -114,7 +115,7 @@ decreasing_by
 variable [BEq α] [LawfulBEq α]
 
 theorem splitOnList_nil_left (sep : List α) : splitOnList [] sep = [[]] := by
-  cases sep <;> rfl
+  cases sep <;> unfold splitOnList <;> rfl
 
 theorem splitOnList_nil_right (l : List α) : splitOnList l [] = [l] := by
   simp [splitOnList]
@@ -258,21 +259,21 @@ theorem splitOnListAux_eq_splitOnList_append_append (l sep₁ sep₂ : List α) 
 termination_by (sep₁.length + l.length, sep₂.length)
 decreasing_by
   all_goals simp_wf
-  · rename_i _₀ _₁ _₂ _₃ _₄ hls _ _; clear _₀ _₁ _₂ _₃ _₄
-    left; calc
-      l.length - 1 < l.length := Nat.pred_lt (mt length_eq_zero.mp hls)
-      _ ≤ sep₁.length + l.length := Nat.le_add_left ..
-  · rename_i _₀ _₁ _₂ _₃ _₄ hls _ _; clear _₀ _₁ _₂ _₃ _₄
+  · rename_i _₀ _₁ _₂ _₃ _₄ _₅ hls _hhd; clear _₀ _₁ _₂ _₃ _₄ _₅
+    left
+    rw [Nat.add_sub_assoc (show 1 ≤ l.length from length_pos.mpr hls), Nat.add_lt_add_iff_left]
+    exact Nat.pred_lt (mt length_eq_zero.mp hls)
+  · rename_i _₀ _₁ _₂ _₃ _₄ _₅ hls _hhd _htl₂; clear _₀ _₁ _₂ _₃ _₄ _₅
     have heq : sep₁.length + 1 + (l.length - 1) = sep₁.length + l.length := by
       rw [← Nat.add_sub_assoc (show 1 ≤ l.length from length_pos.mpr hls), Nat.add_right_comm,
         Nat.add_sub_cancel]
     rw [heq]; clear heq
     right
     exact Nat.pred_lt (mt length_eq_zero.mp h)
-  · rename_i _₀ _₁ _₂ _₃ _₄ hls _; clear _₀ _₁ _₂ _₃ _₄
+  · rename_i _₀ _₁ _₂ _₃ _₄ _₅ hls _hhd _htl₂; clear _₀ _₁ _₂ _₃ _₄ _₅
     left
-    apply Nat.pred_lt; show ¬length sep₁ + length l = 0
-    rw [Nat.add_eq_zero_iff, length_eq_zero (l := l)]
-    exact not_and_of_not_right _ hls
+    calc
+      l.length - 1 < l.length := Nat.pred_lt (mt length_eq_zero.mp hls)
+      l.length ≤ sep₁.length + l.length := Nat.le_add_left ..
 
 end List
