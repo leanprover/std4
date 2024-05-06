@@ -109,6 +109,15 @@ annotations. -/
 def getTypeCleanup (mvarId : MVarId) : MetaM Expr :=
   return (← instantiateMVars (← mvarId.getType)).cleanupAnnotations
 
+/-- Try to close the goal using `refl`. -/
+def refl? (mvarId : MVarId) : MetaM Bool := do
+  try mvarId.refl; return true catch _ => return false
+
+/-- Apply a lemma with fresh metavariable levels. -/
+def applyWithFreshMVarLevels (mvarId : MVarId) (lemmaName : Name) :
+    MetaM (List MVarId) := mvarId.withContext do
+  mvarId.apply (← mkConstWithFreshMVarLevels lemmaName)
+
 end MVarId
 
 
