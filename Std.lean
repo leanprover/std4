@@ -78,6 +78,7 @@ import Std.Tactic.Basic
 import Std.Tactic.Case
 import Std.Tactic.Classical
 import Std.Tactic.Congr
+import Std.Tactic.Eqns
 import Std.Tactic.Exact
 import Std.Tactic.Init
 import Std.Tactic.Instances
