@@ -63,7 +63,7 @@ theorem UInt8.max_def (x y : UInt8) : max x y = if x ≤ y then y else x := rfl
 
 theorem UInt8.min_def (x y : UInt8) : min x y = if x ≤ y then x else y := rfl
 
-theorem UInt8.max_toNat (x y : UInt8) : (max x y).toNat = max x.toNat y.toNat := by
+theorem UInt8.toNat_max (x y : UInt8) : (max x y).toNat = max x.toNat y.toNat := by
   rw [max_def]
   split
   · next h =>
@@ -73,7 +73,7 @@ theorem UInt8.max_toNat (x y : UInt8) : (max x y).toNat = max x.toNat y.toNat :=
       rw [le_iff_toNat_le_toNat] at h
       rw [Nat.max_eq_left (Nat.le_of_not_ge h)]
 
-theorem UInt8.min_toNat (x y : UInt8) : (min x y).toNat = min x.toNat y.toNat := by
+theorem UInt8.toNat_min (x y : UInt8) : (min x y).toNat = min x.toNat y.toNat := by
   rw [min_def]
   split
   · next h =>
@@ -141,7 +141,7 @@ theorem UInt16.max_def (x y : UInt16) : max x y = if x ≤ y then y else x := rf
 
 theorem UInt16.min_def (x y : UInt16) : min x y = if x ≤ y then x else y := rfl
 
-theorem UInt16.max_toNat (x y : UInt16) : (max x y).toNat = max x.toNat y.toNat := by
+theorem UInt16.toNat_max (x y : UInt16) : (max x y).toNat = max x.toNat y.toNat := by
   rw [max_def]
   split
   · next h =>
@@ -151,7 +151,7 @@ theorem UInt16.max_toNat (x y : UInt16) : (max x y).toNat = max x.toNat y.toNat 
       rw [le_iff_toNat_le_toNat] at h
       rw [Nat.max_eq_left (Nat.le_of_not_ge h)]
 
-theorem UInt16.min_toNat (x y : UInt16) : (min x y).toNat = min x.toNat y.toNat := by
+theorem UInt16.toNat_min (x y : UInt16) : (min x y).toNat = min x.toNat y.toNat := by
   rw [min_def]
   split
   · next h =>
@@ -219,7 +219,7 @@ theorem UInt32.max_def (x y : UInt32) : max x y = if x ≤ y then y else x := rf
 
 theorem UInt32.min_def (x y : UInt32) : min x y = if x ≤ y then x else y := rfl
 
-theorem UInt32.max_toNat (x y : UInt32) : (max x y).toNat = max x.toNat y.toNat := by
+theorem UInt32.toNat_max (x y : UInt32) : (max x y).toNat = max x.toNat y.toNat := by
   rw [max_def]
   split
   · next h =>
@@ -229,7 +229,7 @@ theorem UInt32.max_toNat (x y : UInt32) : (max x y).toNat = max x.toNat y.toNat 
       rw [le_iff_toNat_le_toNat] at h
       rw [Nat.max_eq_left (Nat.le_of_not_ge h)]
 
-theorem UInt32.min_toNat (x y : UInt32) : (min x y).toNat = min x.toNat y.toNat := by
+theorem UInt32.toNat_min (x y : UInt32) : (min x y).toNat = min x.toNat y.toNat := by
   rw [min_def]
   split
   · next h =>
@@ -297,7 +297,7 @@ theorem UInt64.max_def (x y : UInt64) : max x y = if x ≤ y then y else x := rf
 
 theorem UInt64.min_def (x y : UInt64) : min x y = if x ≤ y then x else y := rfl
 
-theorem UInt64.max_toNat (x y : UInt64) : (max x y).toNat = max x.toNat y.toNat := by
+theorem UInt64.toNat_max (x y : UInt64) : (max x y).toNat = max x.toNat y.toNat := by
   rw [max_def]
   split
   · next h =>
@@ -307,7 +307,7 @@ theorem UInt64.max_toNat (x y : UInt64) : (max x y).toNat = max x.toNat y.toNat 
       rw [le_iff_toNat_le_toNat] at h
       rw [Nat.max_eq_left (Nat.le_of_not_ge h)]
 
-theorem UInt64.min_toNat (x y : UInt64) : (min x y).toNat = min x.toNat y.toNat := by
+theorem UInt64.toNat_min (x y : UInt64) : (min x y).toNat = min x.toNat y.toNat := by
   rw [min_def]
   split
   · next h =>
@@ -389,7 +389,7 @@ theorem USize.max_def (x y : USize) : max x y = if x ≤ y then y else x := rfl
 
 theorem USize.min_def (x y : USize) : min x y = if x ≤ y then x else y := rfl
 
-theorem USize.max_toNat (x y : USize) : (max x y).toNat = max x.toNat y.toNat := by
+theorem USize.toNat_max (x y : USize) : (max x y).toNat = max x.toNat y.toNat := by
   rw [max_def]
   split
   · next h =>
@@ -399,7 +399,7 @@ theorem USize.max_toNat (x y : USize) : (max x y).toNat = max x.toNat y.toNat :=
       rw [le_iff_toNat_le_toNat] at h
       rw [Nat.max_eq_left (Nat.le_of_not_ge h)]
 
-theorem USize.min_toNat (x y : USize) : (min x y).toNat = min x.toNat y.toNat := by
+theorem USize.toNat_min (x y : USize) : (min x y).toNat = min x.toNat y.toNat := by
   rw [min_def]
   split
   · next h =>
