@@ -43,6 +43,15 @@ theorem UInt8.toNat_mod (x y : UInt8) : (x % y).toNat = x.toNat % y.toNat := rfl
 
 theorem UInt8.toNat_modn (x : UInt8) (n) : (x.modn n).toNat = x.toNat % n := rfl
 
+/-- Maximum `UInt8` value. -/
+def UInt8.last : UInt8 := ⟨UInt8.size.pred, Nat.pred_lt (by decide)⟩
+
+@[simp] theorem UInt8.last_toNat : UInt8.last.toNat = UInt8.size - 1 := rfl
+
+@[simp] theorem UInt8.zero_le (x : UInt8) : 0 ≤ x := Nat.zero_le _
+
+@[simp] theorem UInt8.le_last (x : UInt8) : x ≤ last := Nat.le_of_lt_succ <| UInt8.toNat_lt _
+
 theorem UInt8.le_antisymm_iff {x y : UInt8} : x = y ↔ x ≤ y ∧ y ≤ x :=
   UInt8.ext_iff.trans Nat.le_antisymm_iff
 
@@ -120,6 +129,15 @@ theorem UInt16.toNat_div (x y : UInt16) : (x / y).toNat = x.toNat / y.toNat := r
 theorem UInt16.toNat_mod (x y : UInt16) : (x % y).toNat = x.toNat % y.toNat := rfl
 
 theorem UInt16.toNat_modn (x : UInt16) (n) : (x.modn n).toNat = x.toNat % n := rfl
+
+/-- Maximum `UInt16` value. -/
+def UInt16.last : UInt16 := ⟨UInt16.size.pred, Nat.pred_lt (by decide)⟩
+
+@[simp] theorem UInt16.last_toNat : UInt16.last.toNat = UInt16.size - 1 := rfl
+
+@[simp] theorem UInt16.zero_le (x : UInt16) : 0 ≤ x := Nat.zero_le _
+
+@[simp] theorem UInt16.le_last (x : UInt16) : x ≤ last := Nat.le_of_lt_succ <| UInt16.toNat_lt _
 
 theorem UInt16.le_antisymm_iff {x y : UInt16} : x = y ↔ x ≤ y ∧ y ≤ x :=
   UInt16.ext_iff.trans Nat.le_antisymm_iff
@@ -199,6 +217,15 @@ theorem UInt32.toNat_mod (x y : UInt32) : (x % y).toNat = x.toNat % y.toNat := r
 
 theorem UInt32.toNat_modn (x : UInt32) (n) : (x.modn n).toNat = x.toNat % n := rfl
 
+/-- Maximum `UInt32` value. -/
+def UInt32.last : UInt32 := ⟨UInt32.size.pred, Nat.pred_lt (by decide)⟩
+
+@[simp] theorem UInt32.last_toNat : UInt32.last.toNat = UInt32.size - 1 := rfl
+
+@[simp] theorem UInt32.zero_le (x : UInt32) : 0 ≤ x := Nat.zero_le _
+
+@[simp] theorem UInt32.le_last (x : UInt32) : x ≤ last := Nat.le_of_lt_succ <| UInt32.toNat_lt _
+
 theorem UInt32.le_antisymm_iff {x y : UInt32} : x = y ↔ x ≤ y ∧ y ≤ x :=
   UInt32.ext_iff.trans Nat.le_antisymm_iff
 
@@ -277,6 +304,16 @@ theorem UInt64.toNat_mod (x y : UInt64) : (x % y).toNat = x.toNat % y.toNat := r
 
 theorem UInt64.toNat_modn (x : UInt64) (n) : (x.modn n).toNat = x.toNat % n := rfl
 
+/-- Maximum `UInt64` value. -/
+def UInt64.last : UInt64 := ⟨UInt64.size.pred, Nat.pred_lt (by decide)⟩
+
+@[simp] theorem UInt64.last_toNat : UInt64.last.toNat = UInt64.size - 1 := rfl
+
+@[simp] theorem UInt64.zero_le (x : UInt64) : 0 ≤ x := Nat.zero_le _
+
+@[simp] theorem UInt64.le_last (x : UInt64) : x ≤ last := Nat.le_of_lt_succ <| UInt64.toNat_lt _
+
+
 theorem UInt64.le_antisymm_iff {x y : UInt64} : x = y ↔ x ≤ y ∧ y ≤ x :=
   UInt64.ext_iff.trans Nat.le_antisymm_iff
 
@@ -346,8 +383,7 @@ theorem USize.size_le : USize.size ≤ 2 ^ 64 := by
   apply Nat.pow_le_pow_of_le_right (by decide)
   cases System.Platform.numBits_eq <;> simp_arith [*]
 
-theorem USize.toNat_lt (x : USize) : x.toNat < 2 ^ System.Platform.numBits := by
-  rw [←USize.size_eq]; exact x.val.isLt
+theorem USize.toNat_lt (x : USize) : x.toNat < USize.size := x.val.isLt
 
 @[simp] theorem USize.toUInt64_toNat (x : USize) : x.toUInt64.toNat = x.toNat := by
   simp only [USize.toUInt64, UInt64.toNat]; rfl
@@ -368,6 +404,15 @@ theorem USize.toNat_div (x y : USize) : (x / y).toNat = x.toNat / y.toNat := rfl
 theorem USize.toNat_mod (x y : USize) : (x % y).toNat = x.toNat % y.toNat := rfl
 
 theorem USize.toNat_modn (x : USize) (n) : (x.modn n).toNat = x.toNat % n := rfl
+
+/-- Maximum `USize` value. -/
+def USize.last : USize := ⟨USize.size.pred, Nat.pred_lt (by decide)⟩
+
+@[simp] theorem USize.last_toNat : USize.last.toNat = USize.size - 1 := rfl
+
+@[simp] theorem USize.zero_le (x : USize) : 0 ≤ x := Nat.zero_le _
+
+@[simp] theorem USize.le_last (x : USize) : x ≤ last := Nat.le_of_lt_succ <| (USize.val _).is_lt
 
 theorem USize.le_antisymm_iff {x y : USize} : x = y ↔ x ≤ y ∧ y ≤ x :=
   USize.ext_iff.trans Nat.le_antisymm_iff
