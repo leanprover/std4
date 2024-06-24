@@ -10,7 +10,7 @@ namespace Fin
 attribute [norm_cast] val_last
 
 protected theorem le_antisymm_iff {x y : Fin n} : x = y ↔ x ≤ y ∧ y ≤ x :=
-  Fin.ext_iff.trans Nat.le_antisymm_iff
+  (Fin.ext_iff _ _).trans Nat.le_antisymm_iff
 
 protected theorem le_antisymm {x y : Fin n} (h1 : x ≤ y) (h2 : y ≤ x) : x = y :=
   Fin.le_antisymm_iff.2 ⟨h1, h2⟩

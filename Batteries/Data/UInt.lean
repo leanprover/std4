@@ -42,7 +42,7 @@ theorem UInt8.toNat_mod (x y : UInt8) : (x % y).toNat = x.toNat % y.toNat := rfl
 theorem UInt8.toNat_modn (x : UInt8) (n) : (x.modn n).toNat = x.toNat % n := rfl
 
 theorem UInt8.le_antisymm_iff {x y : UInt8} : x = y ↔ x ≤ y ∧ y ≤ x :=
-  UInt8.ext_iff.trans Nat.le_antisymm_iff
+  (UInt8.ext_iff _ _).trans Nat.le_antisymm_iff
 
 theorem UInt8.le_antisymm {x y : UInt8} (h1 : x ≤ y) (h2 : y ≤ x) : x = y :=
   UInt8.le_antisymm_iff.2 ⟨h1, h2⟩
@@ -87,7 +87,7 @@ theorem UInt16.toNat_mod (x y : UInt16) : (x % y).toNat = x.toNat % y.toNat := r
 theorem UInt16.toNat_modn (x : UInt16) (n) : (x.modn n).toNat = x.toNat % n := rfl
 
 theorem UInt16.le_antisymm_iff {x y : UInt16} : x = y ↔ x ≤ y ∧ y ≤ x :=
-  UInt16.ext_iff.trans Nat.le_antisymm_iff
+  (UInt16.ext_iff _ _).trans Nat.le_antisymm_iff
 
 theorem UInt16.le_antisymm {x y : UInt16} (h1 : x ≤ y) (h2 : y ≤ x) : x = y :=
   UInt16.le_antisymm_iff.2 ⟨h1, h2⟩
@@ -132,7 +132,7 @@ theorem UInt32.toNat_mod (x y : UInt32) : (x % y).toNat = x.toNat % y.toNat := r
 theorem UInt32.toNat_modn (x : UInt32) (n) : (x.modn n).toNat = x.toNat % n := rfl
 
 theorem UInt32.le_antisymm_iff {x y : UInt32} : x = y ↔ x ≤ y ∧ y ≤ x :=
-  UInt32.ext_iff.trans Nat.le_antisymm_iff
+  (UInt32.ext_iff _ _).trans Nat.le_antisymm_iff
 
 theorem UInt32.le_antisymm {x y : UInt32} (h1 : x ≤ y) (h2 : y ≤ x) : x = y :=
   UInt32.le_antisymm_iff.2 ⟨h1, h2⟩
@@ -177,7 +177,7 @@ theorem UInt64.toNat_mod (x y : UInt64) : (x % y).toNat = x.toNat % y.toNat := r
 theorem UInt64.toNat_modn (x : UInt64) (n) : (x.modn n).toNat = x.toNat % n := rfl
 
 theorem UInt64.le_antisymm_iff {x y : UInt64} : x = y ↔ x ≤ y ∧ y ≤ x :=
-  UInt64.ext_iff.trans Nat.le_antisymm_iff
+  (UInt64.ext_iff _ _).trans Nat.le_antisymm_iff
 
 theorem UInt64.le_antisymm {x y : UInt64} (h1 : x ≤ y) (h2 : y ≤ x) : x = y :=
   UInt64.le_antisymm_iff.2 ⟨h1, h2⟩
@@ -236,7 +236,7 @@ theorem USize.toNat_mod (x y : USize) : (x % y).toNat = x.toNat % y.toNat := rfl
 theorem USize.toNat_modn (x : USize) (n) : (x.modn n).toNat = x.toNat % n := rfl
 
 theorem USize.le_antisymm_iff {x y : USize} : x = y ↔ x ≤ y ∧ y ≤ x :=
-  USize.ext_iff.trans Nat.le_antisymm_iff
+  (USize.ext_iff _ _).trans Nat.le_antisymm_iff
 
 theorem USize.le_antisymm {x y : USize} (h1 : x ≤ y) (h2 : y ≤ x) : x = y :=
   USize.le_antisymm_iff.2 ⟨h1, h2⟩
