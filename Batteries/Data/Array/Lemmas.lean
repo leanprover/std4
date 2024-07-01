@@ -111,9 +111,77 @@ theorem mem_join : ∀ {L : Array (Array α)}, a ∈ L.join ↔ ∃ l, l ∈ L �
   · rintro ⟨s, h₁, h₂⟩
     refine ⟨s.data, ⟨⟨s, h₁, rfl⟩, h₂⟩⟩
 
+/-! ### indexOf? -/
+
+theorem indexOf?_data [BEq α] {a : α} {l : Array α} :
+    l.data.indexOf? a = (l.indexOf? a).map Fin.val := by
+  simpa using aux l 0
+where
+  aux (l : Array α) (i : Nat) :
+       ((l.data.drop i).indexOf? a).map (·+i) = (indexOfAux l a i).map Fin.val := by
+    rw [indexOfAux]
+    if h : i < l.size then
+      rw [List.drop_eq_get_cons h, ←getElem_eq_data_get, List.indexOf?_cons]
+      if h' : l[i] == a then
+        simp [h, h']
+      else
+        simp [h, h', ←aux l (i+1), Function.comp_def, ←Nat.add_assoc, Nat.add_right_comm]
+    else
+      have h' : l.size ≤ i := Nat.le_of_not_lt h
+      simp [h, List.drop_length_le h', List.indexOf?]
+  termination_by l.size - i
+
 /-! ### erase -/
 
-@[simp] proof_wanted erase_data [BEq α] {l : Array α} {a : α} : (l.erase a).data = l.data.erase a
+theorem eraseIdx_swap_data {l : Array α} (i : Nat) (lt : i + 1 < size l) :
+    (l.swap ⟨i+1, lt⟩ ⟨i, Nat.lt_of_succ_lt lt⟩).data.eraseIdx (i+1) = l.data.eraseIdx i := by
+  let ⟨xs⟩ := l
+  induction i generalizing xs <;> let x₀::x₁::xs := xs
+  case zero => simp [swap, get]
+  case succ i ih _ =>
+    have lt' := Nat.lt_of_succ_lt_succ lt
+    have : (swap ⟨x₀::x₁::xs⟩ ⟨i.succ + 1, lt⟩ ⟨i.succ, Nat.lt_of_succ_lt lt⟩).data
+        = x₀::(swap ⟨x₁::xs⟩ ⟨i + 1, lt'⟩ ⟨i, Nat.lt_of_succ_lt lt'⟩).data := by
+      simp [swap_def, List.set_succ, getElem_eq_data_get]
+    simp [this, ih]
+
+theorem feraseIdx_data {l : Array α} {i : Fin l.size} :
+    (l.feraseIdx i).data = l.data.eraseIdx i := by
+  induction l, i using feraseIdx.induct with
+  | @case1 a i lt a' i' ih =>
+    rw [feraseIdx]
+    simp [lt, ih, a', eraseIdx_swap_data i lt]
+  | case2 a i lt =>
+    have : i + 1 ≥ a.size := Nat.ge_of_not_lt lt
+    have last : i + 1 = a.size := Nat.le_antisymm i.is_lt this
+    simp [feraseIdx, lt, List.dropLast_eq_eraseIdx last]
+
+@[simp] theorem erase_data [BEq α] {l : Array α} {a : α} : (l.erase a).data = l.data.erase a := by
+  let ⟨xs⟩ := l
+  match h : indexOf? ⟨xs⟩ a with
+  | none =>
+    simp only [erase, h]
+    apply erase_none 0
+    simpa [←indexOf?_data] using congrArg (Option.map Fin.val) h
+  | some i =>
+    simp only [erase, h]
+    rw [feraseIdx_data, ←List.eraseIdx_indexOf_eq_erase]
+    congr
+    rw [List.indexOf_eq_indexOf?, indexOf?_data]
+    simp [h]
+where
+  erase_none {xs : List α} (i : Nat) (h : List.indexOf? a xs = none) :
+      xs.drop i = (xs.drop i).erase a := by
+    if le : xs.length ≤ i then
+      rw [List.drop_length_le le]
+      rfl
+    else
+      have lt : i < xs.length := Nat.lt_of_not_le le
+      have h' := List.findIdx?_of_eq_none h i
+      simp only [List.get?_eq_get lt] at h'
+      rw [List.drop_eq_get_cons lt, List.erase]
+      simp [h', ←erase_none (i+1) h]
+  termination_by xs.length - i
 
 /-! ### shrink -/
 
